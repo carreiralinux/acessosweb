@@ -31,9 +31,7 @@ END //
 
 
 CREATE OR REPLACE VIEW cache_clients AS
-    SELECT DISTINCT ip_client FROM access_log ORDER BY 1;
-
-CREATE INDEX client_ip_idx ON access_log(ip_client);
+    SELECT DISTINCT ip_client FROM access_log ORDER BY 1
 
 
 CREATE OR REPLACE VIEW traffic_by_client AS
