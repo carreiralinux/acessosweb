@@ -9,6 +9,9 @@
 CREATE DATABASE IF NOT EXISTS `squid_log` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `squid_log`;
 
+GRANT DELETE,INSERT,SELECT,CREATE ON squid_log.* TO 'squid'@'localhost' IDENTIFIED BY 'squid';
+FLUSH PRIVILEGES;
+
 DROP TABLE IF EXISTS `access_log`;
 CREATE TABLE `access_log` (
   `id` int(11) NOT NULL,
