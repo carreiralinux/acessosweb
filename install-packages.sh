@@ -1,4 +1,4 @@
-yum groupinstall "Development tools"
+yum -y groupinstall "Development tools"
 yum install -y epel-release.noarch \
 wget \
 git \
