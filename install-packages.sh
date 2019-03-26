@@ -5,6 +5,7 @@ git \
 bzip2 \
 mariadb-server \
 httpd \
+php.x86_64 \
 squidGuard \
 openldap-devel.x86_64 \
 openldap-clients.x86_64 \
