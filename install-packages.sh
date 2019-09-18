@@ -1,6 +1,7 @@
 yum -y groupinstall "Development tools"
 yum install -y epel-release.noarch \
 wget \
+net-tools \
 git \
 bzip2 \
 mariadb-server \
