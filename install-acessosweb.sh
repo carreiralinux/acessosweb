@@ -1,4 +1,5 @@
 #!/bin/bash
+cd /root/downloads/acessosweb
 
 function update_os () {
      echo -e "1. Atualizar sistema operacional"
