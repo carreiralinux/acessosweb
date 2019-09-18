@@ -75,21 +75,18 @@ function squidguard_start() {
    fi
    $MKDIR -p /var/squidGuard/blacklists/permitidos
    $MKDIR -p /var/squidGuard/blacklists/procon
+   $CD /var/squidGuard/blacklists/procon/
+   $WGET -c -P /var/squidGuard/blacklists/procon/ http://www.carreiralinux.com.br/uploads/squidguard/procon/domains
    $TOUCH /var/squidGuard/blacklists/permitidos/domains
    $TOUCH /var/squidGuard/blacklists/permitidos/urls
    $TOUCH /var/squidGuard/blacklists/permitidos/ips
    $TOUCH /var/squidGuard/blacklists/procon/urls
    $TOUCH /var/squidGuard/blacklists/procon/expressions
-   $CD /var/squidGuard/blacklists/procon/
-   if [ ! -f domains ];then
-   	$WGET -c http://www.carreiralinux.com.br/uploads/squidguard/procon/domains
-   fi
+   $SQUIDG -C all
    $CHOWN -R squid:squid /var/squidGuard
    $CHOWN -R squid:squid /var/log/squidGuard
-   $SQUIDG -C all
    $MV /etc/squid/squidGuard.conf /etc/squid/squidGuard.conf.ori
-   $CD /etc/squid
-   $WGET -c http://www.carreiralinux.com.br/uploads/squidguard/squidGuard.conf
+   $CP /root/downloads/acessosweb/squidGuard.conf /etc/squid/squidGuard.conf
    $MKDIR -p /var/www/html/proxy
    $CD /var/www/html/proxy
    $WGET -c http://www.carreiralinux.com.br/uploads/squidguard/index.php
