@@ -127,6 +127,14 @@ function firewall (){
    firewall-cmd --permanent --add-port=8080/tcp
    firewall-cmd --permanent --add-port=3128/tcp
    firewall-cmd --reload
+}
+function wpad (){
+   echo -e "9. Criar aquivo wpad.dat \r" 
+   cp wpad.dat /var/www/html/wpad.dat
+
+}
+function msg (){
+   echo "\n"
    echo -e "Sistema instalado ! \r"
    echo -e "Abra o navegador http://ip_do_servidor:8080/acessosweb \r"
 }
@@ -155,4 +163,6 @@ else
 	jre
         tomcat
 	firewall
+	wpad
+        msg
 fi
