@@ -1,4 +1,4 @@
-./configure --prefix="/usr" \
+/usr/src/squid-3.5.22/configure --prefix="/usr" \
 --libexecdir="/usr/libexec/squid" \
 --sysconfdir="/etc/squid" \
 --localstatedir="/var" \
