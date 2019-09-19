@@ -65,7 +65,7 @@ function squidguard_start() {
    $ECHO  -e "4. Configurar o Squid Guard \r" 
    if [ ! -x /usr/bin/squidGuard ]; then
         $ECHO  -e "4.1 Instalar o Squid Guard \r" 
-	$YUM install squidGuard
+	$YUM -y install squidGuard
    fi
    $ECHO -e "4.1 Criar usuario Squid \r" 
    $SLEEP 
