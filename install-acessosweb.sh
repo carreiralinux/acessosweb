@@ -208,7 +208,7 @@ else
 	squid_start
 	jre_start
         tomcat_start
-	#firewall_start
+	firewall_start
 	wpad_start
         msg_start
 fi
