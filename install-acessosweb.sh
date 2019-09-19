@@ -65,7 +65,7 @@ function database_start() {
 function squidguard_start() {
    $ECHO  -e "4. Configurar o Squid Guard \r" 
    $ECHO  -e "4.1 Instalar o Squid Guard \r" 
-   $YUM -y install squidGuard --nodeps
+   $YUM -y install squidGuard
    $ECHO -e "4.1 Criar usuario Squid \r" 
    $SLEEP 
    $GREP squid /etc/passwd
@@ -118,6 +118,7 @@ function squid_start() {
     $TOUCH /var/log/squid/access.log
     $TOUCH /var/log/squid/cache.log
     $TOUCH /var/run/squid/squid.pid
+    $SQUID -z
     $CHOWN -R squid:squid /var/cache/squid
     $CHOWN -R squid:squid /var/log/squid
     $CHOWN squid:squid /var/run/squid/squid.pid
@@ -126,7 +127,6 @@ function squid_start() {
     $MV /etc/squid/squid.conf /etc/squid/squid.conf.ori
     $CHMOD 4775 /usr/libexec/squid/pinger
     $CP /root/downloads/acessosweb/squid.conf /etc/squid/squid.conf
-    $SQUID -z
     $ECHO -e "5.7 Configurar rc.conf \r" 
     $SLEEP
     $CHMOD +x /etc/rc.d/rc.local
