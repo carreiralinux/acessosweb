@@ -34,7 +34,7 @@ $CD /root/downloads/acessosweb
 function update_start() {
      $ECHO -e "1. Atualizar sistema operacional"
      $YUM -y update
-     $ECHO -e "Sistema operacionail atualizado."
+     $ECHO -e "Sistema operacional atualizado."
      $SLEEP
 }
 
@@ -64,10 +64,8 @@ function database_start() {
 
 function squidguard_start() {
    $ECHO  -e "4. Configurar o Squid Guard \r" 
-   if [ ! -x /usr/bin/squidGuard ]; then
-        $ECHO  -e "4.1 Instalar o Squid Guard \r" 
-	$YUM -y install squidGuard --nodeps
-   fi
+   $ECHO  -e "4.1 Instalar o Squid Guard \r" 
+   $YUM -y install squidGuard --nodeps
    $ECHO -e "4.1 Criar usuario Squid \r" 
    $SLEEP 
    $GREP squid /etc/passwd
