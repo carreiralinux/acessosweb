@@ -114,19 +114,20 @@ function squid_start() {
     $ECHO -e "5.6 Configurar squid.conf \r" 
     $SLEEP
     $MKDIR /var/cache/squid
+    $MKDIR /var/run/squid
     $MKDIR /var/log/squid
     $TOUCH /var/log/squid/access.log
     $TOUCH /var/log/squid/cache.log
     $TOUCH /var/run/squid/squid.pid
-    $SQUID -z
     $CHOWN -R squid:squid /var/cache/squid
     $CHOWN -R squid:squid /var/log/squid
-    $CHOWN squid:squid /var/run/squid/squid.pid
+    $CHOWN -R squid:squid /var/run/squid
     $CP /usr/src/squid-3.5.22/helpers/log_daemon/DB/log_db_daemon.pl.in /usr/libexec/squid/
     $SED -i 's/@PERL@/\/bin\/perl/' /usr/libexec/squid/log_db_daemon.pl.in 
     $MV /etc/squid/squid.conf /etc/squid/squid.conf.ori
     $CHMOD 4775 /usr/libexec/squid/pinger
     $CP /root/downloads/acessosweb/squid.conf /etc/squid/squid.conf
+    $SQUID -z
     $ECHO -e "5.7 Configurar rc.conf \r" 
     $SLEEP
     $CHMOD +x /etc/rc.d/rc.local
@@ -158,7 +159,7 @@ function tomcat_start() {
    $ECHO  -e "7.1 Desempacotar pacote Apache Tomcat \r" 
    $TAR -xzvf /root/downloads/acessosweb/apache-tomcat-8.5.6.tar.gz -C /home/tomcat
    $CD /home/tomcat/
-   #$LN -sf /home/tomcat/apache-tomcat-8.5.6/ tomcat
+   $LN -sf /home/tomcat/apache-tomcat-8.5.6/ tomcat
    $MKDIR -p /home/tomcat/apache-tomcat-8.5.6/conf/Catalina/localhost 
    $CP /root/downloads/acessosweb/manager.xml /home/tomcat/apache-tomcat-8.5.6/conf/Catalina/localhost/
    $CP /root/downloads/acessosweb/acessosweb.war /home/tomcat/apache-tomcat-8.5.6/webapps
