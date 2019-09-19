@@ -66,30 +66,29 @@ function squidguard_start() {
    $ECHO  -e "4. Configurar o Squid Guard \r" 
    $ECHO  -e "4.1 Instalar o Squid Guard \r" 
    $YUM -y install squidGuard
-   $ECHO -e "4.1 Criar usuario Squid \r" 
    $SLEEP 
    $GREP squid /etc/passwd
    if [ $? -eq 0 ];then
+        $ECHO -e "Remover usuario squid \r" 
 	$USERDEL squid
    fi
+   $ECHO -e "4.1 Criar usuario Squid \r" 
    $USERADD -r -d /var/cache/squid -s /bin/false squid
    $MKDIR -p /var/squidGuard/blacklists/permitidos
    $MKDIR -p /var/squidGuard/blacklists/procon
-   $CD /var/squidGuard/blacklists/procon/
-   $WGET -c -P /var/squidGuard/blacklists/procon/ http://www.carreiralinux.com.br/uploads/squidguard/procon/domains
+   $CP /root/downloads/acessosweb/domains /var/squidGuard/blacklists/procon/domains
    $TOUCH /var/squidGuard/blacklists/permitidos/domains
    $TOUCH /var/squidGuard/blacklists/permitidos/urls
    $TOUCH /var/squidGuard/blacklists/permitidos/ips
    $TOUCH /var/squidGuard/blacklists/procon/urls
    $TOUCH /var/squidGuard/blacklists/procon/expressions
-   $SQUIDG -C all
    $CHOWN -R squid:squid /var/squidGuard
    $CHOWN -R squid:squid /var/log/squidGuard
    $MV /etc/squid/squidGuard.conf /etc/squid/squidGuard.conf.ori
    $CP /root/downloads/acessosweb/squidGuard.conf /etc/squid/squidGuard.conf
+   $SQUIDG -C all
    $MKDIR -p /var/www/html/proxy
-   $CD /var/www/html/proxy
-   $WGET -c http://www.carreiralinux.com.br/uploads/squidguard/index.php
+   $CP /root/downloads/acessosweb/index.php /var/www/html/proxy/index.php
    $SYSTEMCTL restart httpd
    $ECHO -e "Squid Guard instalado \r" 
    $SLEEP
@@ -104,8 +103,8 @@ function squid_start() {
     $SLEEP
     $CD /usr/src/squid-3.5.22/
     $CP /root/downloads/acessosweb/configure.sh /usr/src/squid-3.5.22/configure.sh
-    $CHMOD +x configure.sh
-    ./configure.sh
+    $CHMOD +x /usr/src/squid-3.5.22/configure.sh
+    /usr/src/squid-3.5.22/configure.sh
     $ECHO -e "5.3 Make Squid \r" 
     $MAKE
     $ECHO -e "5.4 Make install Squid \r" 
@@ -113,16 +112,15 @@ function squid_start() {
     $MAKE install
     $ECHO -e "5.6 Configurar squid.conf \r" 
     $SLEEP
-    $MKDIR /var/cache/squid
-    $MKDIR /var/run/squid
-    $MKDIR /var/log/squid
+    #$MKDIR /var/cache/squid
+    #$MKDIR /var/log/squid
     $TOUCH /var/log/squid/access.log
     $TOUCH /var/log/squid/cache.log
     $TOUCH /var/run/squid/squid.pid
     $CHOWN -R squid:squid /var/cache/squid
     $CHOWN -R squid:squid /var/log/squid
-    $CHOWN -R squid:squid /var/run/squid
-    $CP /usr/src/squid-3.5.22/helpers/log_daemon/DB/log_db_daemon.pl.in /usr/libexec/squid/
+    $CHOWN -R squid:squid /var/run/squid.pid
+    $CP /usr/src/squid-3.5.22/helpers/log_daemon/DB/log_db_daemon.pl.in /usr/libexec/squid/log_db_daemon.pl.in
     $SED -i 's/@PERL@/\/bin\/perl/' /usr/libexec/squid/log_db_daemon.pl.in 
     $MV /etc/squid/squid.conf /etc/squid/squid.conf.ori
     $CHMOD 4775 /usr/libexec/squid/pinger
@@ -133,11 +131,13 @@ function squid_start() {
     $CHMOD +x /etc/rc.d/rc.local
     $GREP "/usr/sbin/squid" /etc/rc.d/rc.local
     if [ $? -eq 1 ]; then
-    	$ECHO "/usr/bin/su -c /usr/sbin/squid" >> /etc/rc.d/rc.local
+    	$ECHO "/usr/bin/su -c /usr/sbin/squid start" >> /etc/rc.d/rc.local
     fi
     $ECHO -e "5.8 Iniciar Squid \r" 
     $SLEEP
-    $SQUID
+    $SQUID -k parse
+    $SQUID -k check
+    $SQUID start 
 }
 
 function jre_start() {
@@ -204,14 +204,14 @@ read -p "Escolha uma alternativa: " OPCAO
 if [ $OPCAO -eq 2 ];then 
     exit
 else
-        update_start
-	install_start
-	database_start
+        #update_start
+	#install_start
+	#database_start
 	squidguard_start
 	squid_start
-	jre_start
-        tomcat_start
-	firewall_start
-	wpad_start
+	#jre_start
+        #tomcat_start
+	#firewall_start
+	#wpad_start
         msg_start
 fi
