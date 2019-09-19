@@ -24,7 +24,7 @@ SU="/usr/bin/su"
 SYSTEMCTL="/usr/bin/systemctl"
 TAR="/usr/bin/tar"
 TOUCH="/usr/bin/touch"
-USERDEL="/usr/sbin/userdel -r"
+USERDEL="/usr/sbin/userdel"
 USERADD="/usr/sbin/useradd"
 WGET="/usr/bin/wget"
 YUM="/usr/bin/yum"
@@ -116,7 +116,7 @@ function squid_start() {
     #$MKDIR /var/log/squid
     $TOUCH /var/log/squid/access.log
     $TOUCH /var/log/squid/cache.log
-    $TOUCH /var/run/squid/squid.pid
+    $TOUCH /var/run/squid.pid
     $CHOWN -R squid:squid /var/cache/squid
     $CHOWN -R squid:squid /var/log/squid
     $CHOWN -R squid:squid /var/run/squid.pid
@@ -135,9 +135,9 @@ function squid_start() {
     fi
     $ECHO -e "5.8 Iniciar Squid \r" 
     $SLEEP
+    $SQUID start 
     $SQUID -k parse
     $SQUID -k check
-    $SQUID start 
 }
 
 function jre_start() {
