@@ -24,6 +24,7 @@ SU="/usr/bin/su"
 SYSTEMCTL="/usr/bin/systemctl"
 TAR="/usr/bin/tar"
 TOUCH="/usr/bin/touch"
+USERDEL="/usr/sbin/userdel -r"
 USERADD="/usr/sbin/useradd"
 WGET="/usr/bin/wget"
 YUM="/usr/bin/yum"
@@ -70,9 +71,10 @@ function squidguard_start() {
    $ECHO -e "4.1 Criar usuario Squid \r" 
    $SLEEP 
    $GREP squid /etc/passwd
-   if [ $? -eq 1 ];then
-	   $USERADD -r -d /var/cache/squid -s /bin/false squid
+   if [ $? -eq 0 ];then
+	$USERDEL squid
    fi
+   $USERADD -r -d /var/cache/squid -s /bin/false squid
    $MKDIR -p /var/squidGuard/blacklists/permitidos
    $MKDIR -p /var/squidGuard/blacklists/procon
    $CD /var/squidGuard/blacklists/procon/
