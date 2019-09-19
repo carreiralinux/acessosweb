@@ -1,6 +1,8 @@
 #!/bin/bash
 
+#
 # Binarios
+#
 CD="/usr/bin/cd"
 CHMOD="/usr/bin/chmod"
 CHOWN="/usr/bin/chown"
@@ -26,11 +28,13 @@ TAR="/usr/bin/tar"
 TOUCH="/usr/bin/touch"
 USERDEL="/usr/sbin/userdel"
 USERADD="/usr/sbin/useradd"
+USERMOD="/usr/sbin/usermod"
 WGET="/usr/bin/wget"
 YUM="/usr/bin/yum"
 
-$CD /root/downloads/acessosweb
-
+#
+# Funcoes
+#
 function update_start() {
      $ECHO -e "1. Atualizar sistema operacional"
      $YUM -y update
@@ -58,7 +62,7 @@ function database_start() {
     $ECHO -e "3.4 Vamos criar a base de dados Acessos Web \r" 
     $ECHO -e "Agora digite a senha do banco de dados MariaDB \r" 
     $MYSQL -u root -p < /root/downloads/acessosweb/database.sql
-    $ECHO -e "3.5 Base de dados ok. \r" 
+    $ECHO -e "3.5 Base de dados foi criada. \r" 
     $SLEEP
 }
 
@@ -69,11 +73,12 @@ function squidguard_start() {
    $SLEEP 
    $GREP squid /etc/passwd
    if [ $? -eq 0 ];then
-        $ECHO -e "Remover usuario squid \r" 
-	$USERDEL squid
+         ECHO -e "Usuario squid existente, vamos alterar\r" 
+	$USERMOD -r -d /var/cache/squid -s /bin/false squid
    fi
    $ECHO -e "4.1 Criar usuario Squid \r" 
    $USERADD -r -d /var/cache/squid -s /bin/false squid
+   $ECHO -e "Usuario squid foi criado \r" 
    $MKDIR -p /var/squidGuard/blacklists/permitidos
    $MKDIR -p /var/squidGuard/blacklists/procon
    $CP /root/downloads/acessosweb/domains /var/squidGuard/blacklists/procon/domains
@@ -90,7 +95,7 @@ function squidguard_start() {
    $MKDIR -p /var/www/html/proxy
    $CP /root/downloads/acessosweb/index.php /var/www/html/proxy/index.php
    $SYSTEMCTL restart httpd
-   $ECHO -e "Squid Guard instalado \r" 
+   $ECHO -e "SquidGuard instalado \r" 
    $SLEEP
 }
 
@@ -101,7 +106,7 @@ function squid_start() {
     $TAR -xjvf /root/downloads/acessosweb/squid-3.5.22.tar.bz2 -C /usr/src
     $ECHO -e "5.2 Configure Squid \r" 
     $SLEEP
-    $CD /usr/src/squid-3.5.22/
+    $CD /usr/src/squid-3.5.22
     $CP /root/downloads/acessosweb/configure.sh /usr/src/squid-3.5.22/configure.sh
     $CHMOD +x /usr/src/squid-3.5.22/configure.sh
     /usr/src/squid-3.5.22/configure.sh
@@ -158,7 +163,6 @@ function tomcat_start() {
    $USERADD -r -d /home/tomcat -m -s /bin/bash tomcat
    $ECHO  -e "7.1 Desempacotar pacote Apache Tomcat \r" 
    $TAR -xzvf /root/downloads/acessosweb/apache-tomcat-8.5.6.tar.gz -C /home/tomcat
-   $CD /home/tomcat/
    $LN -sf /home/tomcat/apache-tomcat-8.5.6/ tomcat
    $MKDIR -p /home/tomcat/apache-tomcat-8.5.6/conf/Catalina/localhost 
    $CP /root/downloads/acessosweb/manager.xml /home/tomcat/apache-tomcat-8.5.6/conf/Catalina/localhost/
