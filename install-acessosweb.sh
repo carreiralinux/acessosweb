@@ -113,6 +113,8 @@ function squid_start() {
     $MAKE install
     $ECHO -e "5.6 Configurar squid.conf \r" 
     $SLEEP
+    $MKDIR /var/cache/squid
+    $MKDIR /var/log/squid
     $TOUCH /var/log/squid/access.log
     $TOUCH /var/log/squid/cache.log
     $TOUCH /var/run/squid/squid.pid
