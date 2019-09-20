@@ -19,6 +19,7 @@ MYSQL="/usr/bin/mysql"
 MYSQLSECURE="/usr/bin/mysql_secure_installation"
 READ="/usr/bin/read"
 SED="/usr/bin/sed"
+SETSEBOOL="/usr/sbin/setsebool"
 SLEEP="/usr/bin/sleep 3"
 SQUID="/usr/sbin/squid"
 SQUIDG="/usr/bin/squidGuard"
@@ -185,7 +186,7 @@ function wpad_start(){
    $CP wpad.dat /var/www/html/wpad.dat
 
 }
-function rclocal(){
+function rclocal_start(){
    $GREP "startup.sh" /etc/rc.d/rc.local
    if [ $? -eq 1 ]; then 
    	$ECHO "/usr/bin/su - tomcat -c /home/tomcat/apache-tomcat-8.5.6/bin/startup.sh" >> /etc/rc.d/rc.local
@@ -194,6 +195,9 @@ function rclocal(){
    if [ $? -eq 1 ]; then
    	$ECHO "/usr/bin/su - -c /usr/sbin/squid" >> /etc/rc.d/rc.local
    fi
+}
+function setsebool_start(){
+	$SETSEBOOL -P squid_use_tproxy 1
 }
 function msg_start(){
     $ECHO -e "Sistema instalado ! \r"
@@ -224,6 +228,7 @@ else
         tomcat_start
 	firewall_start
 	wpad_start
-	rclocal
+	rclocal_start
+	setsebool_start
         msg_start
 fi
