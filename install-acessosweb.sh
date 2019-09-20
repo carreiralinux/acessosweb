@@ -66,9 +66,61 @@ function database_start() {
     $SLEEP
 }
 
+function squid_start() {
+    $ECHO -e "4. Instalar Squid Proxy \r" 
+    $ECHO -e "4.1 Desempacotar pacote squid em /usr/src \r" 
+    $SLEEP
+    $TAR -xjvf /root/downloads/acessosweb/squid-3.5.22.tar.bz2 -C /usr/src
+    $GREP squid /etc/passwd
+    if [ $? -eq 0 ];then
+        $ECHO -e "Usuario squid existente, vamos ajustar\r" 
+	$USERMOD -r -d /var/cache/squid -s /bin/false squid
+    	else
+        	$ECHO -e "4.2 Criar usuario Squid \r" 
+        	$USERADD -r -d /var/cache/squid -s /bin/false squid
+    fi
+    $ECHO -e "4.3 Configure Squid \r" 
+    $SLEEP
+    $CD /usr/src/squid-3.5.22
+    $CP /root/downloads/acessosweb/configure.sh /usr/src/squid-3.5.22/configure.sh
+    $CHMOD +x /usr/src/squid-3.5.22/configure.sh
+    /usr/src/squid-3.5.22/configure.sh
+    $ECHO -e "4.4 Make Squid \r" 
+    $MAKE
+    $ECHO -e "4.5 Make install Squid \r" 
+    $SLEEP
+    $MAKE install
+    $ECHO -e "4.6 Configurar squid.conf \r" 
+    $SLEEP
+    $TOUCH /var/log/squid/access.log
+    $TOUCH /var/log/squid/cache.log
+    $TOUCH /var/run/squid.pid
+    $CHOWN -R squid:squid /var/cache/squid
+    $CHOWN -R squid:squid /var/log/squid
+    $CHOWN -R squid:squid /var/run/squid.pid
+    $CP /usr/src/squid-3.5.22/helpers/log_daemon/DB/log_db_daemon.pl.in /usr/libexec/squid/log_db_daemon.pl.in
+    $SED -i 's/@PERL@/\/bin\/perl/' /usr/libexec/squid/log_db_daemon.pl.in 
+    $MV /etc/squid/squid.conf /etc/squid/squid.conf.ori
+    $CHMOD 4775 /usr/libexec/squid/pinger
+    $CP /root/downloads/acessosweb/squid.conf /etc/squid/squid.conf
+    $SQUID -z
+    $ECHO -e "4.7 Configurar rc.conf \r" 
+    $SLEEP
+    $CHMOD +x /etc/rc.d/rc.local
+    $GREP "/usr/sbin/squid" /etc/rc.d/rc.local
+    if [ $? -eq 1 ]; then
+    	$ECHO "/usr/bin/su -c /usr/sbin/squid start" >> /etc/rc.d/rc.local
+    fi
+    $ECHO -e "4.8 Iniciar Squid \r" 
+    $SLEEP
+    $SQUID start 
+    $SQUID -k parse
+    $SQUID -k check
+}
+
 function squidguard_start() {
-   $ECHO  -e "4. Configurar o Squid Guard \r" 
-   $ECHO  -e "4.1 Instalar o Squid Guard \r" 
+   $ECHO  -e "5. Configurar o Squid Guard \r" 
+   $ECHO  -e "5.1 Instalar o Squid Guard \r" 
    $YUM -y install squidGuard
    $SLEEP 
    $GREP squid /etc/passwd
@@ -76,7 +128,7 @@ function squidguard_start() {
          ECHO -e "Usuario squid existente, vamos alterar\r" 
 	$USERMOD -r -d /var/cache/squid -s /bin/false squid
    fi
-   $ECHO -e "4.1 Criar usuario Squid \r" 
+   $ECHO -e "5.1 Criar usuario Squid \r" 
    $USERADD -r -d /var/cache/squid -s /bin/false squid
    $ECHO -e "Usuario squid foi criado \r" 
    $MKDIR -p /var/squidGuard/blacklists/permitidos
@@ -98,53 +150,6 @@ function squidguard_start() {
    $ECHO -e "SquidGuard instalado \r" 
    $SLEEP
 }
-
-function squid_start() {
-    $ECHO -e "5. Instalar Squid Proxy \r" 
-    $ECHO -e "5.1 Desempacotar pacote squid em /usr/src \r" 
-    $SLEEP
-    $TAR -xjvf /root/downloads/acessosweb/squid-3.5.22.tar.bz2 -C /usr/src
-    $ECHO -e "5.2 Configure Squid \r" 
-    $SLEEP
-    $CD /usr/src/squid-3.5.22
-    $CP /root/downloads/acessosweb/configure.sh /usr/src/squid-3.5.22/configure.sh
-    $CHMOD +x /usr/src/squid-3.5.22/configure.sh
-    /usr/src/squid-3.5.22/configure.sh
-    $ECHO -e "5.3 Make Squid \r" 
-    $MAKE
-    $ECHO -e "5.4 Make install Squid \r" 
-    $SLEEP
-    $MAKE install
-    $ECHO -e "5.6 Configurar squid.conf \r" 
-    $SLEEP
-    #$MKDIR /var/cache/squid
-    #$MKDIR /var/log/squid
-    $TOUCH /var/log/squid/access.log
-    $TOUCH /var/log/squid/cache.log
-    $TOUCH /var/run/squid.pid
-    $CHOWN -R squid:squid /var/cache/squid
-    $CHOWN -R squid:squid /var/log/squid
-    $CHOWN -R squid:squid /var/run/squid.pid
-    $CP /usr/src/squid-3.5.22/helpers/log_daemon/DB/log_db_daemon.pl.in /usr/libexec/squid/log_db_daemon.pl.in
-    $SED -i 's/@PERL@/\/bin\/perl/' /usr/libexec/squid/log_db_daemon.pl.in 
-    $MV /etc/squid/squid.conf /etc/squid/squid.conf.ori
-    $CHMOD 4775 /usr/libexec/squid/pinger
-    $CP /root/downloads/acessosweb/squid.conf /etc/squid/squid.conf
-    $SQUID -z
-    $ECHO -e "5.7 Configurar rc.conf \r" 
-    $SLEEP
-    $CHMOD +x /etc/rc.d/rc.local
-    $GREP "/usr/sbin/squid" /etc/rc.d/rc.local
-    if [ $? -eq 1 ]; then
-    	$ECHO "/usr/bin/su -c /usr/sbin/squid start" >> /etc/rc.d/rc.local
-    fi
-    $ECHO -e "5.8 Iniciar Squid \r" 
-    $SLEEP
-    $SQUID start 
-    $SQUID -k parse
-    $SQUID -k check
-}
-
 function jre_start() {
    $ECHO -e "6. Desempacotar Java JRE \r" 
    $TAR -xzvf /root/downloads/acessosweb/jre-9.0.4_linux-x64_bin.tar.gz -C /usr/lib64
@@ -211,8 +216,8 @@ else
         update_start
 	install_start
 	database_start
-	squidguard_start
 	squid_start
+	#squidguard_start
 	jre_start
         tomcat_start
 	firewall_start
