@@ -56,4 +56,5 @@ libwbclient.x86_64 \
 libwbclient-devel.x86_64 \
 samba-winbind.x86_64 \
 compat-db47.x86_64 \
+policycoreutils-python \
 libdb-devel.x86_64 libdb.x86_64
