@@ -106,11 +106,7 @@ function squid_start() {
     $SQUID -z
     $ECHO -e "4.7 Configurar rc.conf \r" 
     $SLEEP
-    $CHMOD +x /etc/rc.d/rc.local
-    $GREP "/usr/sbin/squid" /etc/rc.d/rc.local
-    if [ $? -eq 1 ]; then
-    	$ECHO "/usr/bin/su -c /usr/sbin/squid start" >> /etc/rc.d/rc.local
-    fi
+    $CHMOD +x /etc/rc.d/rc.local        
     $ECHO -e "4.8 Iniciar Squid \r" 
     $SLEEP
     $SQUID start 
@@ -174,11 +170,7 @@ function tomcat_start() {
    $CP /root/downloads/acessosweb/acessosweb.war /home/tomcat/apache-tomcat-8.5.6/webapps
    $CHOWN -R tomcat:tomcat /home/tomcat
    $ECHO -e "7.2 Iniciar Apache Tomcat \r" 
-   $ECHO -e "7.3 Configurar Apache Tomcat iniciar automaticamente \r" 
-   $GREP "startup.sh" /etc/rc.d/rc.local
-   if [ $? -eq 1 ]; then 
-   	$ECHO "/usr/bin/su - tomcat -c /home/tomcat/apache-tomcat-8.5.6/bin/startup.sh" >> /etc/rc.d/rc.local
-   fi
+   $ECHO -e "7.3 Configurar Apache Tomcat iniciar automaticamente \r"       
    $SU - tomcat -c /home/tomcat/apache-tomcat-8.5.6/bin/startup.sh
 }
 function firewall_start(){
@@ -192,6 +184,16 @@ function wpad_start(){
    $ECHO -e "9. Criar aquivo wpad.dat \r" 
    $CP wpad.dat /var/www/html/wpad.dat
 
+}
+function rclocal(){
+   $GREP "startup.sh" /etc/rc.d/rc.local
+   if [ $? -eq 1 ]; then 
+   	$ECHO "/usr/bin/su - tomcat -c /home/tomcat/apache-tomcat-8.5.6/bin/startup.sh" >> /etc/rc.d/rc.local
+   fi
+   $GREP "/usr/sbin/squid" /etc/rc.d/rc.local
+   if [ $? -eq 1 ]; then
+   	$ECHO "/usr/bin/su - -c /usr/sbin/squid" >> /etc/rc.d/rc.local
+   fi
 }
 function msg_start(){
     $ECHO -e "Sistema instalado ! \r"
@@ -222,5 +224,6 @@ else
         tomcat_start
 	firewall_start
 	wpad_start
+	rclocal
         msg_start
 fi
