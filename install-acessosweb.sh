@@ -20,6 +20,7 @@ MYSQLSECURE="/usr/bin/mysql_secure_installation"
 READ="/usr/bin/read"
 SED="/usr/bin/sed"
 SETSEBOOL="/usr/sbin/setsebool"
+SEMANAGE="/usr/sbin/semanage"
 SLEEP="/usr/bin/sleep 3"
 SQUID="/usr/sbin/squid"
 SQUIDG="/usr/bin/squidGuard"
@@ -198,6 +199,7 @@ function rclocal_start(){
 }
 function setsebool_start(){
 	$SETSEBOOL -P squid_use_tproxy 1
+	$SEMANAGE permissive -a squid_t
 }
 function msg_start(){
     $ECHO -e "Sistema instalado ! \r"
