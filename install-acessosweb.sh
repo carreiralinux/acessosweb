@@ -185,6 +185,7 @@ function firewall_start(){
 function wpad_start(){
    $ECHO -e "9. Criar aquivo wpad.dat \r" 
    $CP wpad.dat /var/www/html/wpad.dat
+   $SYSTEMCTL enable httpd
 
 }
 function rclocal_start(){
