@@ -184,6 +184,7 @@ function firewall_start(){
 }
 function wpad_start(){
    $ECHO -e "9. Criar aquivo wpad.dat \r" 
+   $WGET -c https://www.carreiralinux.com.br/uploads/wpad.dat
    $CP wpad.dat /var/www/html/wpad.dat
    $SYSTEMCTL enable httpd
 
