@@ -144,7 +144,6 @@ function squidguard_start() {
    $SQUIDG -C all
    $MKDIR -p /var/www/html/proxy
    $CP /root/downloads/acessosweb/index.php /var/www/html/proxy/index.php
-   $SYSTEMCTL restart httpd
    $ECHO -e "SquidGuard instalado \r" 
    $SLEEP
 }
@@ -187,6 +186,7 @@ function wpad_start(){
    $WGET -c https://www.carreiralinux.com.br/uploads/wpad.dat
    $CP wpad.dat /var/www/html/wpad.dat
    $SYSTEMCTL enable httpd
+   $SYSTEMCTL start httpd
 
 }
 function rclocal_start(){
