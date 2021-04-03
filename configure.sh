@@ -6,6 +6,7 @@
 --datarootdir="/usr/share/squid" \
 --mandir="/usr/man/squid" \
 --docdir="/usr/doc/squid" \
+--enable-ssl-crtd \
 --enable-auto-locale \
 --enable-translation \
 --enable-disk-io \
@@ -23,6 +24,7 @@
 --enable-external-acl-helpers="LDAP_group,session,unix_group,wbinfo_group" \
 --enable-err-languages="Portuguese" \
 --enable-default-err-language="Portuguese" \
+--with-openssl \
 --with-default-user="squid" \
 --with-logdir="/var/log/squid" \
 --with-pidfile="/var/run/squid.pid" \
