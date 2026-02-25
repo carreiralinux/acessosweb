@@ -104,8 +104,6 @@ function squid_start() {
     $TOUCH /var/log/squid/access.log
     $ECHO -e "Criar /var/log/squid/cache.log."
     $TOUCH /var/log/squid/cache.log
-    $ECHO -e "Criar /usr/local/squid."
-    $MKDIR /usr/local/squid
     $ECHO -e "Criar /usr/local/squid/squid.pid."
     $TOUCH /usr/local/squid/squid.pid 
     $ECHO -e "Alterar o chowner /usr/local/squid."
@@ -116,10 +114,8 @@ function squid_start() {
     $CHOWN -R squid:squid /var/log/squid/access.log
     $ECHO -e "Alterar o owner /var/cache/squid/cache.log."
     $CHOWN -R squid:squid /var/log/squid/cache.log
-    $ECHO -e "Alterar o owner /var/run/squid.pid."
-    $CHOWN -R squid:squid /var/run/squid.pid
     $ECHO -e "Copiar o log_db_daemon."
-    $CP /usr/src/$SQUIDPATH/helpers/log_daemon/DB/log_db_daemon.pl.in /usr/lib/squid/log_db_daemon.pl.in
+    $CP /usr/src/$SQUIDPATH/src/log/DB/log_db_daemon.pl.in /usr/lib/squid/log_db_daemon.pl.in
     $ECHO -e "Substituir a variavel PERL."
     $SED -i 's/@PERL@/\/bin\/perl/' /usr/lib/squid/log_db_daemon.pl.in 
     $ECHO -e "Criar uma backup do squid.conf."
