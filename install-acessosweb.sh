@@ -176,11 +176,13 @@ function tomcat_start() {
 }
 function firewall_start(){
    $ECHO -e "8. Criando regras de firewall \r" 
-   $FIREWALL --permanent --add-port=80/tcp
-   $FIREWALL --permanent --add-port=8080/tcp
-   $FIREWALL --permanent --add-port=3128/tcp
-   $FIREWALL --reload
+   $UFW allow 22
+   $UFW allow 80
+   $UFW allow 443
+   $UFW allow 3128
+   $UFW enable
 }
+
 function wpad_start(){
    $ECHO -e "9. Criar aquivo wpad.dat \r" 
    $WGET -c https://www.carreiralinux.com.br/uploads/wpad.dat
