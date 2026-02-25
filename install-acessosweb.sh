@@ -227,9 +227,9 @@ function wpad_start(){
    $ECHO -e "Copiar o arquivo. \r" 
    $CP /root/downloads/acessosweb/wpad.dat /var/www/html/wpad.dat
    $ECHO -e "Habilitar o httpd para iniciar com o boot. \r" 
-   $SYSTEMCTL enable httpd
+   $SYSTEMCTL enable apache2
    $ECHO -e "Iniciar o Apache. \r" 
-   $SYSTEMCTL start httpd
+   $SYSTEMCTL start apach2
 
 }
 function msg_start(){
