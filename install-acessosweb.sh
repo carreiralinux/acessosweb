@@ -82,7 +82,7 @@ function squid_start() {
     $GREP squid /etc/passwd
     if [ $? -eq 0 ];then
         $ECHO -e "Usuario squid existente, vamos ajustar o diretorio home. \r" 
-	$USERMOD -r -d /var/cache/squid -s /bin/false squid
+	$USERMOD -r -G squid -d /var/cache/squid -s /bin/false squid
     	else
         	$ECHO -e "4.2 Criar usuario Squid. \r" 
         	$USERADD -r -G squid -d /var/cache/squid -s /bin/false squid
@@ -229,7 +229,7 @@ function wpad_start(){
    $ECHO -e "Habilitar o httpd para iniciar com o boot. \r" 
    $SYSTEMCTL enable apache2
    $ECHO -e "Iniciar o Apache. \r" 
-   $SYSTEMCTL start apach2
+   $SYSTEMCTL start apache2
 
 }
 function msg_start(){
