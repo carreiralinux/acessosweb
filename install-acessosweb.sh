@@ -259,13 +259,13 @@ read -p "Escolha uma alternativa: " OPCAO
 if [ $OPCAO -eq 2 ];then 
     exit
 else
-        update_start
+    update_start
 	install_start
 	database_start
 	squid_start
 	jre_start
-        tomcat_start
+    tomcat_start
 	firewall_start
 	wpad_start
-        msg_start
+    msg_start
 fi
