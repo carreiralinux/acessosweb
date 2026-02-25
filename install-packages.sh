@@ -27,4 +27,5 @@ libnss-winbind \
 libpam-winbind \
 packagekit \
 zip \
-unzip
+unzip \
+make
