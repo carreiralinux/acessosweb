@@ -176,7 +176,7 @@ function squid_start() {
 function jre_start() {
    $ECHO -e "6. Desempacotar Java JRE. \r" 
    $UNZIP /root/downloads/acessosweb/jre-9.0.4_linux-x64_bin.tar.zip
-   $TAR /root/downloads/acessosweb/jre-9.0.4_linux-x64_bin.tar -C /usr/lib64
+   $TAR -xvf /root/downloads/acessosweb/jre-9.0.4_linux-x64_bin.tar -C /usr/lib64
    $ECHO  -e "6.1 Criar link simbolico. \r" 
    $CD /usr/lib64
    $LN -sf /usr/lib64/jre-9.0.4 /usr/lib64/java
