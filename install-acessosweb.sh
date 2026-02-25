@@ -7,7 +7,7 @@
 #
 # Binarios
 #
-UFW="usr/bin/ufw"
+UFW="/usr/bin/ufw"
 UNZIP="/usr/bin/unzip"
 CAT="/usr/bin/cat"
 CD="/usr/bin/cd"
