@@ -28,4 +28,4 @@ libpam-winbind \
 packagekit \
 zip \
 unzip \
-make
+apt-build
