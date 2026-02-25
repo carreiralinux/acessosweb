@@ -85,7 +85,7 @@ function squid_start() {
 	$USERMOD -r -d /var/cache/squid -s /bin/false squid
     	else
         	$ECHO -e "4.2 Criar usuario Squid. \r" 
-        	$USERADD -r -d /var/cache/squid -s /bin/false squid
+        	$USERADD -r -G squid -d /var/cache/squid -s /bin/false squid
     fi
     $ECHO -e "4.3 Configure Squid. \r" 
     $SLEEP
