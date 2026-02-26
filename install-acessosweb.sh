@@ -78,7 +78,7 @@ function squid_start() {
     $ECHO -e "4. Instalar Squid Proxy. \r" 
     $ECHO -e "4.1 Desempacotar pacote squid em /usr/src. \r" 
     $SLEEP
-    $TAR -xjvf /root/downloads/acessosweb/ $SQUIDVERSION -C /usr/src
+    $TAR -xjvf /root/downloads/acessosweb/$SQUIDVERSION -C /usr/src
     $GREP squid /etc/passwd
     if [ $? -eq 0 ];then
         $ECHO -e "Usuario squid existente, vamos ajustar o diretorio home. \r" 
