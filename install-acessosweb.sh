@@ -89,7 +89,7 @@ function squid_start() {
     fi
     $ECHO -e "4.3 Configure Squid. \r" 
     $SLEEP
-    $CD /usr/src/$SQUIDPATH
+    cd /usr/src/$SQUIDPATH
     $CP /root/downloads/acessosweb/configure.sh /usr/src/$SQUIDPATH/configure.sh
     $CHMOD +x /usr/src/$SQUIDPATH/configure.sh
     /usr/src/$SQUIDPATH/configure.sh
