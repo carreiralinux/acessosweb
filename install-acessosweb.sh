@@ -7,6 +7,7 @@
 #
 # Binarios
 #
+CLEAR="/usr/bin/clear"
 UFW="/usr/sbin/ufw"
 UNZIP="/usr/bin/unzip"
 CAT="/usr/bin/cat"
@@ -236,7 +237,7 @@ function msg_start(){
     $ECHO -e "Sistema instalado ! \r"
     $ECHO -e "Abra o navegador http://ip_do_servidor:8080/acessosweb \r"
 }
-
+$CLEAR
 $ECHO -e "\t
         ***     ***** *****  *****  *****  ******  *****
        ** **    **    **     **     **     **  **  **
