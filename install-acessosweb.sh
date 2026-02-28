@@ -7,6 +7,7 @@
 #
 # Binarios
 #
+ADDGROUP="/usr/sbin/groupadd"
 CLEAR="/usr/bin/clear"
 UFW="/usr/sbin/ufw"
 UNZIP="/usr/bin/unzip"
@@ -87,6 +88,7 @@ function squid_start() {
     	else
         	$ECHO -e "4.2 Criar usuario Squid. \r" 
         	$USERADD -r -G squid -d /var/cache/squid -s /bin/false squid
+			$ADDGROUP squid
     fi
     $ECHO -e "4.3 Configure Squid. \r" 
     $SLEEP
