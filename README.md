@@ -10,4 +10,5 @@ mkdir /root/downloads
 cd /root/downloads
 git clone https://gitclone.com/carreiralinux/acessosweb
 chmod +x /root/downloads/install-acessosweb.sh
+chmod +x /root/downloads/install-packages.sh
 ./install-acessosweb.sh
