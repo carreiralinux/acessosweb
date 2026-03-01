@@ -188,7 +188,6 @@ function jre_start() {
    $UNZIP /root/downloads/acessosweb/jre-9.0.4_linux-x64_bin.tar.zip
    $TAR -xvf /root/downloads/acessosweb/jre-9.0.4_linux-x64_bin.tar -C /usr/lib64
    $ECHO  -e "6.1 Criar link simbolico. \r" 
-   $CD /usr/lib64
    $LN -sf /usr/lib64/jre-9.0.4 /usr/lib64/java
    $ECHO -e "6.2 Criar variaveis JAVA. \r" 
    $CP /root/downloads/acessosweb/jre.sh /etc/profile.d/jre.sh
