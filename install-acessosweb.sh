@@ -82,7 +82,11 @@ function squid_start() {
     $SLEEP
     $TAR -xjvf /root/downloads/acessosweb/$SQUIDVERSION -C /usr/src
 	$GREP squid /etc/group
-	if [ $? eq 0 ];then
+	if [ $? -eq 0 ];then
+		$ECHO -e "Grupo squid existe."
+		else
+			$ECHO -e "Vamos criar o grupo squid"
+			$ADDGROUP squid
 	fi
     $GREP squid /etc/passwd
     if [ $? -eq 0 ];then
