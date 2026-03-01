@@ -255,7 +255,7 @@ $ECHO -e "\t
     **       ** ***** *****  *****  *****  ******  ***** \n"
 $ECHO -e "\n"
 $ECHO -e "Dashboard moderno para visualizar os logs do Squid Cache. \r"
-$ECHO -E "Projeto desenvolvido com as tecnologias: Java Web, Apache Tomcat, MariaDB e Squid Cache. Todos os direitos reservados 2026. \r"
+$ECHO -e "Projeto desenvolvido com as tecnologias: Java Web, Apache Tomcat, MariaDB e Squid Cache. Todos os direitos reservados 2026. \r"
 $ECHO -e "Autor: Luis Montes \r"
 $ECHO -e "email: contato@carreiralinux.com.br \r"
 $ECHO -e "www.carreiralinux.com.br \n"
