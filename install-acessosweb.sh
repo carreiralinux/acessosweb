@@ -81,13 +81,16 @@ function squid_start() {
     $ECHO -e "4.1 Desempacotar pacote squid em /usr/src. \r" 
     $SLEEP
     $TAR -xjvf /root/downloads/acessosweb/$SQUIDVERSION -C /usr/src
+	$GREP squid /etc/group
+	if [ $? eq 0 ];then
+	fi
     $GREP squid /etc/passwd
     if [ $? -eq 0 ];then
         $ECHO -e "Usuario squid existente, vamos ajustar o diretorio home. \r" 
-	$USERMOD -r -G squid -d /var/cache/squid -s /bin/false squid
+		$USERMOD -r -G squid -d /var/cache/squid -s /bin/false squid
     	else
-        	$ECHO -e "4.2 Criar usuario Squid. \r" 
-        	$USERADD -r -G squid -d /var/cache/squid -s /bin/false squid
+        	$ECHO -e "4.2 Vamos criar o usuario Squid. \r" 
+        	$USERADD -r -g squid -d /var/cache/squid -s /bin/false squid
 			$ADDGROUP squid
     fi
     $ECHO -e "4.3 Configure Squid. \r" 
@@ -192,19 +195,19 @@ function jre_start() {
 }
 function tomcat_start() {
    $ECHO -e "7. Criar usuario tomcat. \r" 
-   $USERADD -r -d /home/tomcat/apache-tomcat-8.5.6 -m -s /bin/bash tomcat
+   $USERADD -r -d /opt/tomcat/apache-tomcat-8.5.6 -m -s /bin/bash tomcat
    $ECHO  -e "Desempacotar pacote Apache Tomcat. \r" 
-   $TAR -xzvf /root/downloads/acessosweb/apache-tomcat-8.5.6.tar.gz -C /home/tomcat
+   $TAR -xzvf /root/downloads/acessosweb/apache-tomcat-8.5.6.tar.gz -C /opt/tomcat
    $ECHO -e "Criar diretório Catalina. \r"
-   $MKDIR -p /home/tomcat/apache-tomcat-8.5.6/conf/Catalina/localhost 
+   $MKDIR -p /opt/tomcat/apache-tomcat-8.5.6/conf/Catalina/localhost 
    $ECHO -e "Copiar o arquivo manager.xml. \r"
-   $CP /root/downloads/acessosweb/manager.xml /home/tomcat/apache-tomcat-8.5.6/conf/Catalina/localhost/
+   $CP /root/downloads/acessosweb/manager.xml /opt/tomcat/apache-tomcat-8.5.6/conf/Catalina/localhost/
    $ECHO -e "Copiar o arquivo acessosweb.war. \r"
-   $CP /root/downloads/acessosweb/acessosweb.war /home/tomcat/apache-tomcat-8.5.6/webapps
+   $CP /root/downloads/acessosweb/acessosweb.war /opt/tomcat/apache-tomcat-8.5.6/webapps
    $ECHO -e "Copiar o arquivo tomcat-users.xml. \r"
-   $CP /root/downloads/acessosweb/tomcat-users.xml /home/tomcat/apache-tomcat-8.5.6/conf/tomcat-users.xml
+   $CP /root/downloads/acessosweb/tomcat-users.xml /opt/tomcat/apache-tomcat-8.5.6/conf/tomcat-users.xml
    $ECHO -e "Mudar o owner do diretorio tomcat. \r"
-   $CHOWN -R tomcat:tomcat /home/tomcat
+   $CHOWN -R tomcat:tomcat /opt/tomcat
    $ECHO -e "Configurar Apache Tomcat iniciar automaticamente. \r"       
    $CP /root/downloads/acessosweb/tomcat.service /etc/systemd/system
    $ECHO -e "Reload no system daemon. \r" 
