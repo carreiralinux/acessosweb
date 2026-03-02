@@ -54,8 +54,7 @@ function update_start() {
 function install_start() {
     $ECHO -e "2. Instalar os pacotes. \r" 
     $CHMOD +x /root/downloads/acessosweb/install-packages.sh
-    /root/downloads/acessosweb/install-packages.sh
-    $WGET -c https://www.carreiralinux.com.br/uploads/jre-9.0.4_linux-x64_bin.tar.zip
+    /root/downloads/acessosweb/install-packages.sh    
     $ECHO -e "Pacotes baixados e instalados. \r" 
     $SLEEP
 }
@@ -184,9 +183,9 @@ function squid_start() {
 #   $SLEEP
 #}
 function jre_start() {
+   $WGET -c https://www.carreiralinux.com.br/uploads/jre-9.0.4_linux-x64_bin.tar.gz
    $ECHO -e "6. Desempacotar Java JRE. \r" 
-   $UNZIP /root/downloads/acessosweb/jre-9.0.4_linux-x64_bin.tar.zip
-   $TAR -xvf /root/downloads/acessosweb/jre-9.0.4_linux-x64_bin.tar -C /usr/lib64
+   $TAR -xzvf /root/downloads/acessosweb/jre-9.0.4_linux-x64_bin.tar.gz -C /usr/lib64
    $ECHO  -e "6.1 Criar link simbolico. \r" 
    $LN -sf /usr/lib64/jre-9.0.4 /usr/lib64/java
    $ECHO -e "6.2 Criar variaveis JAVA. \r" 
